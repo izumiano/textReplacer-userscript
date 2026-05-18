@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => {
 				? monkey({
 						entry: "src/main.ts",
 						userscript: {
+							name: "TextReplacer",
 							namespace: "izumiano",
 							match: ["*"],
 							include: ["*"],

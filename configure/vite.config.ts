@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => {
 				? monkey({
 						entry: "src/main.ts",
 						userscript: {
+							name: "TextReplacer-configure",
 							namespace: "izumiano",
 							match: ["*"],
 							include: ["*"],
@@ -45,7 +46,7 @@ export default defineConfig(({ mode }) => {
 				: undefined,
 		],
 		server: {
-			port: 5174
-		}
+			port: 5174,
+		},
 	};
 });
