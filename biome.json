@@ -1,13 +1,18 @@
 {
-	"$schema": "https://biomejs.dev/schemas/{{BIOME_VERSION}}/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
 	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
 	"files": {
 		"includes": [
-			"src/**",
-			"package.json",
-			"tsconfig.*.json",
-			"tsconfig.json",
-			"vite.config.ts"
+			"textreplacer/src/**",
+			"textreplacer/package.json",
+			"textreplacer/tsconfig.*.json",
+			"textreplacer/tsconfig.json",
+			"textreplacer/vite.config.ts",
+			"configure/src/**",
+			"configure/package.json",
+			"configure/tsconfig.*.json",
+			"configure/tsconfig.json",
+			"configure/vite.config.ts"
 		]
 	},
 	"formatter": {

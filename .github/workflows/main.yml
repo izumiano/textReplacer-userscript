@@ -6,9 +6,12 @@ on:
       - 'v*'
 
 jobs:
-  build:
-    name: Build
+  build-textreplacer:
+    name: Build TextReplacer
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: textreplacer
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -23,20 +26,43 @@ jobs:
       - run: npm run build
       - uses: actions/upload-artifact@v7
         with:
-          name: dist
-          path: dist
+          name: release-textreplacer
+          path: textreplacer/dist
+  
+  build-configure:
+    name: Build Configure
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: configure
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@izumiano"
+      - run: npm i
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-configure
+          path: configure/dist
 
   release:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build-textreplacer, build-configure]
     permissions:
       contents: write
     steps:
       - uses: actions/download-artifact@v7
         with:
-          name: dist
+          pattern: release-*
           path: .
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "*"
+          artifacts: release-*/*
           omitBody: true

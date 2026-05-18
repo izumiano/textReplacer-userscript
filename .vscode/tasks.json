@@ -3,7 +3,12 @@
 	"tasks": [
 		{
 			"label": "Start Dev",
-			"dependsOn": ["npm: dev", "npm: typecheck", "npm: test"],
+			"dependsOn": [
+				"dev:textreplacer",
+				"dev:configure",
+				"npm: typecheck",
+				"test:textreplacer"
+			],
 			"group": {
 				"kind": "build",
 				"isDefault": true
@@ -15,10 +20,52 @@
 			}
 		},
 		{
+			"label": "Build",
+			"dependsOn": ["build:textreplacer", "build:configure"],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"presentation": {
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
 			"type": "npm",
-			"script": "dev",
-			"label": "npm: dev",
-			"detail": "start development",
+			"script": "dev:textreplacer",
+			"label": "dev:textreplacer",
+			"isBackground": true,
+			"presentation": {
+				"group": "run-all-group",
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": {
+				"owner": "vite",
+				"fileLocation": "relative",
+				"pattern": {
+					"regexp": "\\[(ERROR|WARNING|INFO)\\]\\s([^\\s].*)\\((\\d+),(\\d+)\\):\\s(.*)",
+					"file": 2,
+					"line": 3,
+					"column": 4,
+					"severity": 1,
+					"message": 5
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".*Executing task:.*",
+					"endsPattern": ".*VITE v\\d+\\.\\d+\\.\\d+  ready\\.*"
+				}
+			}
+		},
+		{
+			"type": "npm",
+			"script": "dev:configure",
+			"label": "dev:configure",
 			"isBackground": true,
 			"presentation": {
 				"group": "run-all-group",
@@ -66,8 +113,43 @@
 		},
 		{
 			"type": "npm",
-			"script": "test",
-			"label": "npm: test",
+			"script": "test:textreplacer",
+			"label": "test:textreplacer",
+			"detail": "run tests",
+			"group": {
+				"isDefault": false,
+				"kind": "build"
+			},
+			"isBackground": true,
+			"presentation": {
+				"group": "run-all-group",
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": {
+				"owner": "vitest",
+				"fileLocation": "relative",
+				"pattern": {
+					"regexp": "\\[(ERROR|WARNING|INFO)\\]\\s([^\\s].*)\\((\\d+),(\\d+)\\):\\s(.*)",
+					"file": 2,
+					"line": 3,
+					"column": 4,
+					"severity": 1,
+					"message": 5
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".*Executing task:.*",
+					"endsPattern": ".*Waiting for file changes.*"
+				}
+			}
+		},
+		{
+			"type": "npm",
+			"script": "test:configure",
+			"label": "test:configure",
 			"detail": "run tests",
 			"group": {
 				"isDefault": false,
@@ -109,10 +191,33 @@
 		},
 		{
 			"type": "npm",
-			"script": "build",
+			"script": "build:textreplacer",
 			"problemMatcher": [],
-			"label": "npm: build",
-			"group": "build"
+			"label": "build:textreplacer",
+			"group": "build",
+			"isBackground": true,
+			"presentation": {
+				"group": "run-all-group",
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"type": "npm",
+			"script": "build:configure",
+			"problemMatcher": [],
+			"label": "build:configure",
+			"group": "build",
+			"isBackground": true,
+			"presentation": {
+				"group": "run-all-group",
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": false
+			}
 		},
 		{
 			"type": "npm",
