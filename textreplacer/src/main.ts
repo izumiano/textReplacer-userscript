@@ -1,4 +1,8 @@
-const replacements: { [key: string]: string } = {};
+import { localStorageMapKey } from "../../shared/consts";
+
+const replacements: { [key: string]: string } = JSON.parse(
+	localStorage.getItem(localStorageMapKey) ?? "{}",
+);
 
 const pattern = new RegExp(
 	"\\b(" +

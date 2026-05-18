@@ -20,5 +20,5 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true
 	},
-	"include": ["textreplacer/src", "configure/src"]
+	"include": ["textreplacer/src", "configure/src", "shared"]
 }

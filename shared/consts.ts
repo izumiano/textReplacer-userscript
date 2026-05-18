@@ -1,0 +1,1 @@
+export const localStorageMapKey = "izumiano_textreplacer-map" 
