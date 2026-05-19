@@ -25,7 +25,7 @@ if (Object.entries(replacements).length > 0) {
 		return newText;
 	}
 
-	function recursiveReplace(elem: ChildNode) {
+	function recursiveReplace(elem: ChildNode | Node) {
 		if (elem.nodeName === "FORM") {
 			return;
 		}
@@ -41,4 +41,14 @@ if (Object.entries(replacements).length > 0) {
 	}
 
 	recursiveReplace(document.body);
+
+	const mutationObserver = new MutationObserver((muts) => {
+		for (const mut of muts) {
+			for (const node of mut.addedNodes) {
+				recursiveReplace(node);
+			}
+		}
+	});
+
+	mutationObserver.observe(document.body, { childList: true, subtree: true });
 }
