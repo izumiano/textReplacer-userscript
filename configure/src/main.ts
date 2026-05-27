@@ -3,6 +3,8 @@ import { logError, logVerbose, trace } from "@izumiano/vite-logger";
 import { downloadObjectAsFile } from "./utils";
 import { localStorageMapKey } from "../../shared/consts";
 
+document.body.replaceChildren(); // delete all original site content to allow browser search to work properly
+
 const cssPrepend = "izumiano-textreplacer-";
 
 document.body.style.overflow = "hidden";
