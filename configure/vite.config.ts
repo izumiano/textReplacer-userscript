@@ -6,12 +6,18 @@ import monkey from "vite-plugin-monkey";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-	const { VITE_TRACE, VITE_DO_SERVER_LOG, VITE_LOG_URL } = loadEnv(
-		mode,
-		path.resolve(__dirname),
-	);
+	const env = loadEnv(mode, path.resolve(path.join(__dirname, "..")));
+	const localEnv = loadEnv(mode, path.resolve(__dirname));
+	for (const key of Object.keys(localEnv)) {
+		const val = localEnv[key];
+		env[key] = val;
+	}
+	const { VITE_TRACE, VITE_DO_SERVER_LOG, VITE_LOG_URL, VITE_DEV_SITE_MATCH } =
+		env;
 
 	const isVitest = !!process.env.VITEST;
+
+	const match = [mode === "development" ? VITE_DEV_SITE_MATCH : "*"];
 
 	return {
 		plugins: [
@@ -30,8 +36,8 @@ export default defineConfig(({ mode }) => {
 						userscript: {
 							name: "TextReplacer-configure",
 							namespace: "izumiano",
-							match: ["*"],
-							include: ["*"],
+							match,
+							include: match,
 							author: "izumiano",
 							description: "Configure TextReplacer",
 						},
