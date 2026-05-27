@@ -117,9 +117,16 @@ function save(replacementList: HTMLElement) {
 		return;
 	}
 
+	const sortedMap = Object.keys(map)
+		.sort()
+		.reduce((obj: { [key: string]: string }, key) => {
+			obj[key] = map[key];
+			return obj;
+		}, {});
+
 	try {
-		const text = JSON.stringify(map);
-		logVerbose(text);
+		logVerbose(sortedMap);
+		const text = JSON.stringify(sortedMap);
 		localStorage.setItem(localStorageMapKey, text);
 		statusMessage.innerText = "Saved successsfully!";
 	} catch (ex) {
